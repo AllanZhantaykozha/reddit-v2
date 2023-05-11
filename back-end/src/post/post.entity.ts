@@ -1,13 +1,10 @@
 import { CommentEntity } from 'src/comment/comment.entity'
-import { ReactionEntity } from 'src/reaction/reaction.entity'
-import { TagsEntity } from 'src/tags/tags.entity'
 import { UserEntity } from 'src/user/user.entity'
 import { Base } from 'src/utils/base.entity'
 import {
 	Column,
 	Entity,
 	JoinColumn,
-	JoinTable,
 	ManyToMany,
 	ManyToOne,
 	OneToMany
@@ -18,8 +15,8 @@ export class PostEntity extends Base {
 	@Column({ unique: true })
 	title: string
 
-	@Column()
-	images: string[]
+	@Column('text', { array: true, nullable: true })
+	images?: string[]
 
 	@Column({ unique: true })
 	content: string
@@ -28,12 +25,17 @@ export class PostEntity extends Base {
 	@JoinColumn({ name: 'author_id' })
 	author: UserEntity
 
-	@ManyToMany(() => TagsEntity, tag => tag.post)
-	@JoinTable()
-	tags: TagsEntity
+	@Column({ default: 0 })
+	likesCount?: number
 
-	@OneToMany(() => ReactionEntity, react => react.post)
-	reactions: ReactionEntity
+	@Column({ default: 0 })
+	dislikesCount?: number
+
+	@Column({ default: 0 })
+	viewsCount: number
+
+	@Column('text', { array: true, nullable: true })
+	tags?: string[]
 
 	@OneToMany(() => CommentEntity, comment => comment.user)
 	comments: CommentEntity

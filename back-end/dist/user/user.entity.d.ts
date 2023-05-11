@@ -2,7 +2,6 @@ import { CommentEntity } from 'src/comment/comment.entity';
 import { PostEntity } from 'src/post/post.entity';
 import { Base } from 'src/utils/base.entity';
 import { SubscriptionEntity } from './subscription.entity';
-import { ReactionEntity } from 'src/reaction/reaction.entity';
 export declare class UserEntity extends Base {
     email: string;
     name: string;
@@ -13,5 +12,4 @@ export declare class UserEntity extends Base {
     comment: CommentEntity;
     subscripions: SubscriptionEntity;
     subscribers: SubscriptionEntity;
-    reactions: ReactionEntity;
 }

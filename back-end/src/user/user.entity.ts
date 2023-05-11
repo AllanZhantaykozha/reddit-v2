@@ -1,9 +1,8 @@
 import { CommentEntity } from 'src/comment/comment.entity'
 import { PostEntity } from 'src/post/post.entity'
 import { Base } from 'src/utils/base.entity'
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
 import { SubscriptionEntity } from './subscription.entity'
-import { ReactionEntity } from 'src/reaction/reaction.entity'
 
 @Entity('User')
 export class UserEntity extends Base {
@@ -33,7 +32,4 @@ export class UserEntity extends Base {
 
 	@OneToMany(() => SubscriptionEntity, subscribers => subscribers.toChannel)
 	subscribers: SubscriptionEntity
-
-	@OneToMany(() => ReactionEntity, reaction => reaction.user)
-	reactions: ReactionEntity
 }

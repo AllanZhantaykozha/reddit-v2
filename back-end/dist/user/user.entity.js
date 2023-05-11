@@ -15,7 +15,6 @@ const post_entity_1 = require("../post/post.entity");
 const base_entity_1 = require("../utils/base.entity");
 const typeorm_1 = require("typeorm");
 const subscription_entity_1 = require("./subscription.entity");
-const reaction_entity_1 = require("../reaction/reaction.entity");
 let UserEntity = class UserEntity extends base_entity_1.Base {
 };
 __decorate([
@@ -54,10 +53,6 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => subscription_entity_1.SubscriptionEntity, subscribers => subscribers.toChannel),
     __metadata("design:type", subscription_entity_1.SubscriptionEntity)
 ], UserEntity.prototype, "subscribers", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => reaction_entity_1.ReactionEntity, reaction => reaction.user),
-    __metadata("design:type", reaction_entity_1.ReactionEntity)
-], UserEntity.prototype, "reactions", void 0);
 UserEntity = __decorate([
     (0, typeorm_1.Entity)('User')
 ], UserEntity);

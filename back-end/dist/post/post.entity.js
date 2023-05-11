@@ -11,8 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostEntity = void 0;
 const comment_entity_1 = require("../comment/comment.entity");
-const reaction_entity_1 = require("../reaction/reaction.entity");
-const tags_entity_1 = require("../tags/tags.entity");
 const user_entity_1 = require("../user/user.entity");
 const base_entity_1 = require("../utils/base.entity");
 const typeorm_1 = require("typeorm");
@@ -23,7 +21,7 @@ __decorate([
     __metadata("design:type", String)
 ], PostEntity.prototype, "title", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)('text', { array: true, nullable: true }),
     __metadata("design:type", Array)
 ], PostEntity.prototype, "images", void 0);
 __decorate([
@@ -36,14 +34,21 @@ __decorate([
     __metadata("design:type", user_entity_1.UserEntity)
 ], PostEntity.prototype, "author", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => tags_entity_1.TagsEntity, tag => tag.post),
-    (0, typeorm_1.JoinTable)(),
-    __metadata("design:type", tags_entity_1.TagsEntity)
-], PostEntity.prototype, "tags", void 0);
+    (0, typeorm_1.Column)({ default: 0 }),
+    __metadata("design:type", Number)
+], PostEntity.prototype, "likesCount", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => reaction_entity_1.ReactionEntity, react => react.post),
-    __metadata("design:type", reaction_entity_1.ReactionEntity)
-], PostEntity.prototype, "reactions", void 0);
+    (0, typeorm_1.Column)({ default: 0 }),
+    __metadata("design:type", Number)
+], PostEntity.prototype, "dislikesCount", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: 0 }),
+    __metadata("design:type", Number)
+], PostEntity.prototype, "viewsCount", void 0);
+__decorate([
+    (0, typeorm_1.Column)('text', { array: true, nullable: true }),
+    __metadata("design:type", Array)
+], PostEntity.prototype, "tags", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => comment_entity_1.CommentEntity, comment => comment.user),
     __metadata("design:type", comment_entity_1.CommentEntity)

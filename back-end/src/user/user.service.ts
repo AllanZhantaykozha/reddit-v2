@@ -7,10 +7,14 @@ import { UserEntity } from './user.entity'
 import { UserDto } from './user.dto'
 import { Repository } from 'typeorm'
 import { hash, genSalt } from 'bcryptjs'
+import { InjectRepository } from '@nestjs/typeorm'
 
 @Injectable()
 export class UserService {
-	constructor(private readonly userRepository: Repository<UserEntity>) {}
+	constructor(
+		@InjectRepository(UserEntity)
+		private readonly userRepository: Repository<UserEntity>
+	) {}
 
 	async update(id: number, dto: UserDto) {
 		const user = await this.byId(id)
@@ -20,7 +24,7 @@ export class UserService {
 			throw new BadRequestException('Email already exist')
 
 		if (dto.password) {
-			const salt = await genSalt(17)
+			const salt = await genSalt(12)
 			user.password = await hash(dto.password, salt)
 		}
 
@@ -33,6 +37,26 @@ export class UserService {
 		return this.userRepository.save(user)
 	}
 
+	async getProfile(id: number) {
+		const checkUser = this.byId(id)
+
+		if (!checkUser) throw new NotFoundException('User is not found')
+
+		const profile = this.userRepository.findOne({
+			where: { id: id },
+			select: {
+				email: true,
+				name: true,
+				description: true,
+				avatarPath: true,
+				createdAt: true,
+				updatedAt: true
+			}
+		})
+
+		return profile
+	}
+
 	async byId(id: number) {
 		const user = await this.userRepository.findOne({
 			where: { id: id },
@@ -40,7 +64,7 @@ export class UserService {
 			order: { createdAt: 'DESC' }
 		})
 
-		if (!user) throw new NotFoundException('User not found')
+		if (!user) throw new NotFoundException('User is not found')
 
 		return user
 	}
